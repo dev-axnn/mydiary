@@ -3,8 +3,9 @@
     <ul>
       <!-- v-for"in" :key -->
       <li v-for="(item, index) in memoItemArr" :key="index" class="shadow">
-        {{item}}
-        <span class="remove-bt" @click="removeMemo(item, index)">
+        <i class="fas fa-check-square check-bt" @click="updateMemo(item)" v-bind:class="{completeCheck:item.complete}"></i>
+        <span :class="{completeCheckTxt:!item.complete}">{{item.memotitle}}</span>
+        <span class="remove-bt" @click="removeMemo(item.id, index)">
           <i class="fas fa-times"></i>
         </span>
       </li>
@@ -29,9 +30,12 @@
       if(total.value > 0){
         for(let i = 0; i < total.value; i++){
           // memoItemArr 배열에 데이터 담기
-          memoItemArr.push(localStorage.key(i));
+          // 날짜시간을 id 값으로 가진 실제 item.title 나타내기
+          // 추후 DB 연동 예정
+          let obj = localStorage.getItem(localStorage.key(i));
+          memoItemArr.push(JSON.parse(obj));
         }
-        console.log(memoItemArr);
+        // Key 값을 이용하여 정렬(오름차순)
       }
 
       const removeMemo = (item, index) => {
@@ -41,9 +45,18 @@
         memoItemArr.splice(index, 1);
       }
 
+      const updateMemo = (item) => {
+        // localStorage 에서는 update method 를 지원하지 않는다.
+        // 찾아서 지우고, 다시 set 한다.
+        localStorage.removeItem(item.id);
+        item.complete = !item.complete;
+        localStorage.setItem(item.id, JSON.stringify(item));
+      }
+
       return{
         memoItemArr,
-        removeMemo
+        removeMemo,
+        updateMemo
       }
     }
   }
@@ -65,5 +78,25 @@
     margin-left: auto;
     color: #aaa;
     padding: 0 20px;
+  }
+
+  .remove-bt:hover {
+    color: rgb(255, 100, 100);
+  }
+
+  .check-bt {
+    line-height: 50px;
+    color: hotpink;
+    margin: 0 20px 0 10px;
+    cursor: pointer;
+  }
+
+  .completeCheck {
+    color: #aaa;
+  }
+
+  .completeCheckTxt {
+    color: #666;
+    text-decoration: line-through;
   }
 </style>
