@@ -18,12 +18,13 @@
         let temp = newTitle.value;
         // 앞쪽 뒷쪽 공백 제거
         temp = temp.trim();
+        // 앞자리 공백, 뒷자리 공백 제거해주는 코드 추후 업데이트 예정
         if(temp !== ''){
-          // let data = `{"complete": false}`;
-          // 데이터서버가 없어서 로컬스토리지에 저장. 나중에 변경하여야 함. ('localStorage', 'setItem' 은 고정값.)
-          // localStorage.setItem(키.값 (json 문자열로 저장 및 업데이트))
+          // 데이터서버가 없어서 로컬스토리지에 저장. 추후 연결 예정
+          // localStorage.setItem(키.값 (json 형태로 저장 및 업데이트 예정 JSON.stringify(object)))
+          // ('localStorage', 'setItem' 은 고정값.)
           localStorage.setItem(temp, temp);
-          newTitle();
+          resetTitle();
         }
       };
       const resetTitle = () => {
