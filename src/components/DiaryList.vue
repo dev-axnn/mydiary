@@ -2,7 +2,7 @@
   <div class="list-wrap">
     <TransitionGroup name="list" tag="ul">
       <!-- v-for"in" :key -->
-      <li v-for="(item, index) in memodata" :key="index" class="shadow">
+      <li v-for="(item, index) in items" :key="index" class="shadow">
         <i class="fas fa-check-square check-bt" @click="updateMemo(item, index)" v-bind:class="{completeCheck:item.complete}"></i>
         <span :class="{completeCheckTxt:!item.complete}">{{item.memotitle}}</span>
         <div class="info">
@@ -18,21 +18,31 @@
 </template>
 
 <script>
+  import { ref } from 'vue';
+  import { useStore } from 'vuex';
+
   export default {
-    props: [ 'memodata' ],
-    setup(props, context) {
+    setup() {
+
+      // vue store 사용
+      const store = useStore();
+      const items = ref([]);
+      items.value = store.state.memoItemArr;
 
       const removeMemo = (item, index) => {
-        context.emit('removeitem', item, index);
+        // context.emit('removeitem', item, index);
+        store.commit('DELETE_MEMO', {item, index});
       }
 
       const updateMemo = (item, index) => {      
-        context.emit("updateitem", item, index);
+        // context.emit("updateitem", item, index);
+        store.commit('UPDATE_MEMO', {item, index});
       }
 
       return{
         removeMemo,
-        updateMemo
+        updateMemo,
+        items
       }
     }
   }

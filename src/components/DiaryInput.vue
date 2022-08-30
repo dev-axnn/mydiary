@@ -29,13 +29,16 @@
 
 <script>
   import { ref } from 'vue';
+  import { useStore } from 'vuex';
   import ModalView from '@/components/common/ModalView.vue';
 
   export default {
     components: { 
       ModalView 
     },
-    setup(props, context){
+    setup(){
+      const store = useStore();
+
       const newItem = ref('');
       const newIcon = ref(0);
       const showModal = ref(false);
@@ -48,7 +51,8 @@
         // 추후 업데이트 예정(정규표현식-문자열체크 문법)
         //  앞자리공백   공백    뒷자리공백
         if (temp !== '') {          
-          context.emit("additem", temp, icon);
+          // context.emit("additem", temp, icon);
+          store.commit('ADD_MEMO', {item:temp, index:icon});
           resetItem();
         }else{
           showModal.value = true;
