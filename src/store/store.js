@@ -50,7 +50,29 @@ export default createStore({
     iconArr: ['dog1.png', 'dog2.png', 'str.png']
   },
 
-  actions: {},
+  // 외부 데이터 연동
+  actions: {
+    fetchAddMemo(context, obj){
+      // 서버의 주소로 접근하여 자료를 push 한다.
+      // 정상적으로 이행되었다면 아래의 명령을 실행.
+      context.commit("ADD_MEMO", obj);
+    },
+    fetchDeleteMemo({ commit }, obj){
+      // 서버의 주소로 접근하여 데이터 delete
+      // 정상적으로 이행되었다면 아래의 명령을 실행.
+      commit("DELETE_MEMO", obj);
+    },
+    fetchUpdateMemo({ commit }, obj){
+      // 서버의 주소로 접근하여 데이터 update(fetch)
+      // 정상적으로 이행되었다면 아래의 명령을 실행.
+      commit("UPDATE_MEMO", obj);
+    },
+    fetchClearMemo({ commit }){
+      // 서버의 주소로 접근하여 데이터 delete
+      // 정상적으로 이행되었다면 아래의 명령을 실행.
+      commit("CLEAR_MEMO");
+    }
+  },
 
   mutations: {
     // item 추가 {item, index}
@@ -104,5 +126,12 @@ export default createStore({
     }
   },
 
-  getters: {}
+  // state 의 값을 호출한다
+  // computed 에서 감시하여 반영한다
+  getters: {
+    getMemoArr(state){
+      // 조건에 따라 다른 결과물을 돌려준다.
+      return state.memoItemArr;
+    }
+  }
 });
