@@ -26,13 +26,12 @@
 
       // vue store 사용
       const store = useStore();
-      const items = computed(() => store.getters.getMemoArr)
-
-      const removeMemo = (item, index) => {
-        // context.emit('removeitem', item, index);
-        store.dispatch('fetchDeleteMemo', {item, index})
+      store.dispatch('fetchReadMemo');
+      const items = computed(() => store.getters.getMemoArr);
+      const removeMemo = (id, index) => {
+        // context.emit('removeitem', id, index);
+        store.dispatch('fetchDeleteMemo', {id, index})
       }
-
       const updateMemo = (item, index) => {      
         // context.emit("updateitem", item, index);
         store.dispatch('fetchUpdateMemo', {item, index})
