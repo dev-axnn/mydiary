@@ -5,9 +5,15 @@
     </div>
     <button class="login">Login</button>
   </div>
-</template> 
+</template>
 
-<style>
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
   .opening-wrap {
     position: fixed;
     left: 0;
